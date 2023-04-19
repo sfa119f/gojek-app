@@ -3,6 +3,7 @@ import express from 'express';
 import { DBHelper } from '@gojek-app/database'
 import cors from "cors";
 import bodyParser from 'body-parser';
+import { authRoute } from './routes/auth';
 import { userRoute } from './routes/user';
 
 dotenv.config();
@@ -19,6 +20,8 @@ app.use(bodyParser.json())
 app.get('/api', (req, res) => {
   res.send({ message: 'Hello API' });
 });
+
+app.use('/api/auth', authRoute)
 
 app.use('/api/users', userRoute)
 

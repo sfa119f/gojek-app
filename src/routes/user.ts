@@ -1,8 +1,7 @@
 import express from 'express';
+import { auth } from '@gojek-app/auth';
 import { UserHandler } from '@gojek-app/user'
 
 export const userRoute = express.Router()
 
-userRoute.post('/register', UserHandler.register);
-
-userRoute.post('/login', UserHandler.login);
+userRoute.get('/', auth, UserHandler.getAll)
