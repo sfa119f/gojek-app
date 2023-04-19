@@ -9,3 +9,9 @@ export interface UserModel {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export const roleList = [
+  'ADMIN',
+  'USER',
+  'DRIVER'
+]

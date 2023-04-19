@@ -43,11 +43,23 @@ export class UserService {
 
   static async getOne(id: string): Promise<any> {
     try {
-      const foundUser: UserDoc | void = await User.findOne({ _id: id });
+      const foundUser: UserDoc | void = await User.findById(id);
       if (!foundUser) {
         throw new Error('id not found')
       }
       return { data: foundUser.transform(), error: null }
+    } catch (err) {
+      return { data: null, error: err.message }
+    }
+  }
+
+  static async deleteOne(id: string): Promise<any> {
+    try {
+      const deleteUser: UserDoc | void = await User.findByIdAndDelete(id)
+      if (!deleteUser) {
+        throw new Error()
+      }
+      return { data: { deletedId: id }, error: null }
     } catch (err) {
       return { data: null, error: err.message }
     }

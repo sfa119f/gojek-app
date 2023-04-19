@@ -1,6 +1,7 @@
 import { model, Schema, Model, Document } from 'mongoose';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken'
+import { roleList } from './model';
 
 export interface UserDoc extends Document {
   id: string;
@@ -43,6 +44,10 @@ userSchema.pre('save', async function (next) {
   const user = this
   if (user.isModified('password')) {
     user.password = await bcrypt.hash(user.password, 12)
+  }
+  user.role = user.role.toUpperCase()
+  if (!roleList.includes(user.role)) {
+    user.role = 'USER'
   }
   next()
 })
