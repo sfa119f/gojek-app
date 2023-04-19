@@ -5,3 +5,5 @@ import { UserHandler } from '@gojek-app/user'
 export const userRoute = express.Router()
 
 userRoute.get('/', auth, UserHandler.getAll)
+
+userRoute.get('/:id', auth, UserHandler.getOne)

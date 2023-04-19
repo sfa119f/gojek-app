@@ -40,4 +40,16 @@ export class UserService {
       return { data: null, error: err.message }
     }
   }
+
+  static async getOne(id: string): Promise<any> {
+    try {
+      const foundUser: UserDoc | void = await User.findOne({ _id: id });
+      if (!foundUser) {
+        throw new Error('id not found')
+      }
+      return { data: foundUser.transform(), error: null }
+    } catch (err) {
+      return { data: null, error: err.message }
+    }
+  }
 }

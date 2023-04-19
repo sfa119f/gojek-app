@@ -40,4 +40,17 @@ export class UserHandler {
     }
     return res.status(200).json(temp)
   }
+
+  static async getOne(req: CustomRequest, res) {
+    const temp = await UserService.getOne(req.params.id)
+    if (temp.error) {
+      if (temp.error.includes('not found')) {
+        return res.status(400).json(temp)
+      }
+      console.error(temp.error)
+      temp.error = 'something went wrong'
+      return res.status(500).json(temp)
+    }
+    return res.status(200).json(temp)
+  }
 }
