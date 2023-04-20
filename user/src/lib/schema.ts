@@ -41,15 +41,32 @@ const userSchema: Schema = new Schema({
 userSchema.index({ email: 1, phone: 1 }, { unique: true })
 
 userSchema.pre('save', async function (next) {
-  const user = this
-  if (user.isModified('password')) {
-    user.password = await bcrypt.hash(user.password, 12)
+  if (this.isModified('password')) {
+    this.password = await bcrypt.hash(this.password, 12).catch((err) => next(err))
   }
-  user.role = user.role.toUpperCase()
-  if (!roleList.includes(user.role)) {
-    user.role = 'USER'
+  this.role = this.role.toUpperCase()
+  if (!roleList.includes(this.role)) {
+    return next(new Error(`${this.role} role is not allowed`))
   }
-  next()
+  return next()
+})
+
+userSchema.pre('findOneAndUpdate', async function(next) {
+  let role = this.get('role')
+  if (role) {
+    role = role.toUpperCase()
+    if (!roleList.includes(role)) {
+      return next(new Error(`${role} role is not allowed`))
+    }
+    this.set({ role: role })
+  }
+  let password = this.get('password')
+  if (password) {
+    password = await bcrypt.hash(password, 12).catch((err) => next(err))
+    this.set({ password: password })
+  }
+  this.set({ updatedAt: Date.now() })
+  return next()
 })
 
 userSchema.methods.transform = function (): Transformed {

@@ -8,4 +8,6 @@ userRoute.get('/', auth, UserHandler.getAll)
 
 userRoute.get('/:id', auth, UserHandler.getOne)
 
+userRoute.put('/', auth, UserHandler.updateOne)
+
 userRoute.delete('/:id', auth, UserHandler.deleteOne)

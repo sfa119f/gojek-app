@@ -1,4 +1,3 @@
-import { error } from "console";
 import { UserModel } from "./model";
 import { User, UserDoc } from "./schema";
 import bcrypt from 'bcrypt';
@@ -16,7 +15,7 @@ export class UserService {
 
   static async login(email: string, password: string): Promise<any> {
     try {
-      const foundUser = await User.findOne({ email: email })
+      const foundUser: UserDoc = await User.findOne({ email: email })
       if (!foundUser) {
         throw new Error('email or password is not correct')
       }
@@ -50,6 +49,36 @@ export class UserService {
       return { data: foundUser.transform(), error: null }
     } catch (err) {
       return { data: null, error: err.message }
+    }
+  }
+
+  static async updateOne(id: string, oldPassword: string, newData: any): Promise<any> {
+    try {
+      if (oldPassword && newData['password']) {
+        const foundUser = await User.findById(id)
+        const isMatch = bcrypt.compareSync(oldPassword, foundUser.password)
+        if (!isMatch) {
+          throw new Error('old password is not correct')
+        }
+        if (!newData['password']) {
+          throw new Error('new password is required')
+        }
+      } else {
+        delete newData['password']
+      }
+      if (Object.keys(newData).length === 0 && newData.constructor === Object) {
+        throw new Error('no updated data')
+      }
+      const updatedUser: UserDoc = await User.findByIdAndUpdate(id, newData, { new: true })
+      if (!updatedUser) {
+        throw new Error()
+      }
+      return { data: { message: 'update successfully' }, error: null }
+    } catch (err) {
+      if (err.message === 'no updated data') {
+        return { data: { message:  err.message }, error: null }
+      }
+      return { data: null, error: User.checkDuplicateError(err).message }
     }
   }
 

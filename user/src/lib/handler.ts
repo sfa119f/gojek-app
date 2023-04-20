@@ -1,3 +1,4 @@
+import { UserModel } from "./model";
 import { UserService } from "./service";
 import { CustomRequest } from '@gojek-app/auth'
 
@@ -48,6 +49,29 @@ export class UserHandler {
     const temp = await UserService.getOne(req.params.id)
     if (temp.error) {
       if (temp.error.includes('not found')) {
+        return res.status(400).json(temp)
+      }
+      console.error(temp.error)
+      temp.error = 'something went wrong'
+      return res.status(500).json(temp)
+    }
+    return res.status(200).json(temp)
+  }
+
+  static async updateOne(req: CustomRequest, res) {
+    if (req.token['id'] !== req.body.id) {
+      return res.status(401).json({ data: null, error: 'unauthorized' })
+    }
+    let newData: UserModel = req.body.newData
+    Object.keys(newData).forEach(key => {
+      if (!newData[key]) {
+        delete newData[key]
+      }
+    });
+    const temp = await UserService.updateOne(req.body.id, req.body.oldPassword, newData)
+    if (temp.error) {
+      const errMessage = ['password', 'role is not allowed', 'data already taken']
+      if (errMessage.map((msg) => temp.error.includes(msg)).includes(true)) {
         return res.status(400).json(temp)
       }
       console.error(temp.error)
