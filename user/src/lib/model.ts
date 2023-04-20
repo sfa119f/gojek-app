@@ -13,5 +13,14 @@ export interface UserModel {
 export const roleList = [
   'ADMIN',
   'USER',
-  'DRIVER'
+  'DRIVER',
+  'PARTNER'
+]
+
+export const searchField = [
+  'name',
+  'email',
+  'phoneCode',
+  'phone',
+  'role' 
 ]

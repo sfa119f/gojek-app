@@ -1,4 +1,5 @@
-import { UserModel } from "./model";
+import { pagination } from '@gojek-app/database'
+import { UserModel, searchField } from "./model";
 import { UserService } from "./service";
 import { CustomRequest } from '@gojek-app/auth'
 
@@ -33,7 +34,21 @@ export class UserHandler {
     if (req.token['role'] !== 'ADMIN') {
       return res.status(401).json({ data: null, error: 'unauthorized' })
     } 
-    const temp = await UserService.getAll()
+    const field = req.params.searchField
+    if (field && !searchField.includes(field)) {
+      return res.status(400).json({ data: null, error: `cannot search for field ${field}` })
+    }
+    const setSearch = {
+      field: field,
+      qSearch: req.query.search
+    }
+    const setPage = pagination(
+      req.query.page,
+      req.query.size,
+      req.query.orderBy,
+      req.query.desc
+    )
+    const temp = await UserService.getAll(setSearch, setPage)
     if (temp.error) {
       console.error(temp.error)
       temp.error = 'something went wrong'

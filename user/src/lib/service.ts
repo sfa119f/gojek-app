@@ -1,3 +1,4 @@
+import { json } from "stream/consumers";
 import { UserModel } from "./model";
 import { User, UserDoc } from "./schema";
 import bcrypt from 'bcrypt';
@@ -30,9 +31,19 @@ export class UserService {
     }
   }
 
-  static async getAll(): Promise<any> {
+  static async getAll(setSearch: any, setPage: any): Promise<any> {
     try {
-      const users: UserDoc[] | void = await User.find()
+      const selection = {}
+      if (setSearch.field && setSearch.qSearch) {
+        selection[setSearch.field] = new RegExp(setSearch.qSearch, 'i')
+      }
+      const orderBy = `${setPage.desc ? '-' : ''}${setPage.orderBy}`
+      const users: UserDoc[] | void = 
+        await User
+          .find(selection)
+          .skip((setPage.page - 1) * setPage.size)
+          .limit(setPage.size)
+          .sort(orderBy)
       const temp = (users || []).map((user: UserDoc) => user.transform())
       return { data: temp, error: null }
     } catch (err) {

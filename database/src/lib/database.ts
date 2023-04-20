@@ -10,3 +10,17 @@ export class DBHelper {
       .catch((e: Error) => console.log(`Could not connect to mongo.\n\n${e}`));
   }
 }
+
+export const pagination = (page, size, orderBy, desc) => {
+  let setPage = {
+    page: 1,
+    size: 10,
+    orderBy: 'createdAt',
+    desc: false
+  }
+  if (page && !isNaN(page)) setPage.page = Number(page)
+  if (size && !isNaN(size)) setPage.size = Number(size)
+  if (orderBy) setPage.orderBy = orderBy
+  if (desc) setPage.desc = desc.toLowerCase() === 'true'
+  return setPage
+}
