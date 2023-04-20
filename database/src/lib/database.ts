@@ -12,7 +12,7 @@ export class DBHelper {
 }
 
 export const pagination = (page, size, orderBy, desc) => {
-  let setPage = {
+  const setPage = {
     page: 1,
     size: 10,
     orderBy: 'createdAt',

@@ -1,4 +1,3 @@
-import { json } from "stream/consumers";
 import { UserModel } from "./model";
 import { User, UserDoc } from "./schema";
 import bcrypt from 'bcrypt';

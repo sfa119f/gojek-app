@@ -77,7 +77,7 @@ export class UserHandler {
     if (req.token['id'] !== req.body.id) {
       return res.status(401).json({ data: null, error: 'unauthorized' })
     }
-    let newData: UserModel = req.body.newData
+    const newData: UserModel = req.body.newData
     Object.keys(newData).forEach(key => {
       if (!newData[key]) {
         delete newData[key]
