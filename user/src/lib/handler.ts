@@ -38,10 +38,10 @@ export class UserHandler {
     if (field && !searchField.includes(field)) {
       return res.status(400).json({ data: null, error: `cannot search for field ${field}` })
     }
-    const setSearch = {
-      field: field,
-      qSearch: req.query.search
-    }
+    const setSearch = {}
+    searchField.forEach(el => {
+      setSearch[el] = req.query[el]
+    });
     const setPage = pagination(
       req.query.page,
       req.query.size,

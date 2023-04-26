@@ -33,9 +33,13 @@ export class UserService {
   static async getAll(setSearch: any, setPage: any): Promise<any> {
     try {
       const selection = {}
-      if (setSearch.field && setSearch.qSearch) {
-        selection[setSearch.field] = new RegExp(setSearch.qSearch, 'i')
-      }
+      Object.keys(setSearch).forEach(key => {
+        if (key.includes('phone')) {
+          if (setSearch[key]) selection[key] = Number(setSearch[key])
+        } else {
+          selection[key] = new RegExp(setSearch[key], 'i')
+        }
+      })
       const orderBy = `${setPage.desc ? '-' : ''}${setPage.orderBy}`
       const users: UserDoc[] | void = 
         await User
