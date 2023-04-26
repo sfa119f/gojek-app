@@ -5,6 +5,7 @@ import cors from "cors";
 import bodyParser from 'body-parser';
 import { authRoute } from './routes/auth';
 import { userRoute } from './routes/user';
+import { gorideRoute } from './routes/goride';
 
 dotenv.config();
 
@@ -24,6 +25,8 @@ app.get('/api', (req, res) => {
 app.use('/api/auth', authRoute)
 
 app.use('/api/users', userRoute)
+
+app.use('/api/goride', gorideRoute)
 
 app.all('*', (req, res) => {
   res.status(404).json({ data: null, error: 'not found'})

@@ -17,6 +17,7 @@
     "paths": {
       "@gojek-app/auth": ["auth/src/index.ts"],
       "@gojek-app/database": ["database/src/index.ts"],
+      "@gojek-app/goride": ["goride/src/index.ts"],
       "@gojek-app/user": ["user/src/index.ts"]
     }
   },
