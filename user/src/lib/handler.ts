@@ -9,6 +9,8 @@ export class UserHandler {
     if (temp.error) {
       if (temp.error.includes("data already taken")) {
         return res.status(400).json(temp)
+      } else if (temp.error.includes('required')) {
+        return res.status(400).json(temp)
       }
       console.error(temp.error)
       temp.error = 'something went wrong'
