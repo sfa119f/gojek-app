@@ -1,11 +1,11 @@
 export interface GorideModel {
   id: string;
-  id_user: string;
-  id_driver: string;
+  idUser: string;
+  idDriver: string;
   from: string;
   to: string;
-  trip_fee: number;
-  app_fee: number;
+  tripFee: number;
+  appFee: number;
   payment: string;
   status: string;
   rating: number;
@@ -28,4 +28,12 @@ export const statusList = [
   'ON TRIP',
   'FINISHED',
   'CANCELED'
+]
+
+export const searchField = [
+  'idUser',
+  'idDriver',
+  'paymentMin',
+  'paymentMax',
+  'updatedAt' // using YYYYMM format
 ]
