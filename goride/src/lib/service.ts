@@ -78,4 +78,23 @@ export class GorideService {
       return { data: null, error: err.message }
     }
   }
+
+  static async deleteOne(idUser: string, id: string): Promise<any> {
+    try {
+      const data: GorideDoc | void = await Goride.findById(id)
+      if (!data) {
+        throw new Error('id not found')
+      }
+      if (idUser !== data.idUser.toString()) {
+        throw new Error('unauthorized')
+      }
+      const deleteGoride = await Goride.deleteOne({ _id: id })
+      if (!deleteGoride) {
+        throw new Error()
+      }
+      return { data: { deletedId: id }, error: null }
+    } catch (err) {
+      return { data: null, error: err.message }
+    }
+  }
 }

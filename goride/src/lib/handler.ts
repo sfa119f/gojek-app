@@ -109,10 +109,29 @@ export class GorideHandler {
     const temp = await GorideService.updateOne(req.token['id'], req.token['role'], req.body.id, newData)
     if (temp.error) {
       if (temp.error.includes('unauthorized')) {
-        return res.status(401).json({ data: null, error: 'unauthorized' })
+        return res.status(401).json(temp)
       }
       const errMessage = ['is not allowed', 'not found', 'role is missing']
       if (errMessage.map((msg) => temp.error.includes(msg)).includes(true)) {
+        return res.status(400).json(temp)
+      }
+      console.error(temp.error)
+      temp.error = 'something went wrong'
+      return res.status(500).json(temp)
+    }
+    return res.status(200).json(temp)
+  }
+
+  static async deleteOne(req: CustomRequest, res) {
+    if (!req.token['id'] || req.token['role'] !== 'USER') {
+      return res.status(401).json({ data: null, error: 'unauthorized' })
+    }
+    const temp = await GorideService.deleteOne(req.token['id'], req.params.id)
+    if (temp.error) {
+      if (temp.error.includes('unauthorized')) {
+        return res.status(401).json(temp)
+      }
+      if (temp.error.includes('not found')) {
         return res.status(400).json(temp)
       }
       console.error(temp.error)

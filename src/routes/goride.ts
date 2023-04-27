@@ -11,3 +11,5 @@ gorideRoute.get('/', auth, GorideHandler.getAll)
 gorideRoute.get('/:id', auth, GorideHandler.getOne)
 
 gorideRoute.put('/', auth, GorideHandler.updateOne)
+
+gorideRoute.delete('/:id', auth, GorideHandler.deleteOne)
