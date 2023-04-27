@@ -7,3 +7,5 @@ export const gorideRoute = express.Router()
 gorideRoute.post('/', auth, GorideHandler.create)
 
 gorideRoute.get('/', auth, GorideHandler.getAll)
+
+gorideRoute.get('/:id', auth, GorideHandler.getOne)

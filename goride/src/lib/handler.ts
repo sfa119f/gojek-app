@@ -62,4 +62,29 @@ export class GorideHandler {
     }
     return res.status(200).json(temp)
   }
+
+  static async getOne(req: CustomRequest, res) {
+    if (!req.token['id']) {
+      return res.status(401).json({ data: null, error: 'unauthorized' })
+    }
+    const temp = await GorideService.getOne(req.params.id)
+    if (temp.error) {
+      if (temp.error.includes('not found')) {
+        return res.status(400).json(temp)
+      }
+      console.error(temp.error)
+      temp.error = 'something went wrong'
+      return res.status(500).json(temp)
+    }
+    if (req.token['role'] === 'USER') {
+      if (req.token['id'] !== temp.data.idUser.toString()) {
+        return res.status(401).json({ data: null, error: 'unauthorized' })
+      }
+    } else if (req.token['role'] === 'DRIVER') {
+      if (req.token['id'] !== temp.data.idDriver.toString()) {
+        return res.status(401).json({ data: null, error: 'unauthorized' })
+      }
+    }
+    return res.status(200).json(temp)
+  }
 }

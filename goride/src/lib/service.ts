@@ -39,4 +39,19 @@ export class GorideService {
       return { data: null, error: err.message }
     }
   }
+
+  static async getOne(id: string): Promise<any> {
+    try {
+      const foundGoride: GorideDoc | void = await Goride.findById(id)
+      if (!foundGoride) {
+        throw new Error('id not found')
+      }
+      const doc = { id: foundGoride['_id'], ...foundGoride['_doc'] }
+      delete doc['_id']
+      delete doc['__v']
+      return { data: doc, error: null }
+    } catch (err) {
+      return { data: null, error: err.message }
+    }
+  }
 }
