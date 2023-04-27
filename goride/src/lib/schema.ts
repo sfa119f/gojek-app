@@ -1,5 +1,6 @@
 import { Document, Schema, model } from 'mongoose';
 import { paymentList, statusList } from './model';
+import { User, UserDoc } from '@gojek-app/user'
 
 export interface GorideDoc extends Document {
   id: string;
@@ -39,6 +40,16 @@ const gorideSchema: Schema = new Schema({
 })
 
 gorideSchema.pre('save', async function (next) {
+  if (this.idDriver) {
+    const foundUser: UserDoc | void = await User.findById(this.idDriver)
+    if (!foundUser) {
+      throw new Error('idDriver not found')
+    }
+    const user = foundUser.transform()
+    if (user.role !== 'DRIVER') {
+      throw new Error('driver role is missing in idDriver')
+    }
+  }
   this.payment = this.payment.toUpperCase()
   if (!paymentList.includes(this.payment)) {
     return next(new Error(`${this.payment} payment method is not allowed`))
@@ -50,6 +61,31 @@ gorideSchema.pre('save', async function (next) {
   if (this.rating !== null && (this.rating < 1 || this.rating > 5)) {
     return next(new Error(`rating only accept number 1-5`))
   }
+  return next()
+})
+
+gorideSchema.pre('findOneAndUpdate', async function (next) {
+  const idDriver = this.get('idDriver')
+  if (idDriver) {
+    const foundUser: UserDoc | void = await User.findById(idDriver)
+    if (!foundUser) {
+      throw new Error('idDriver not found')
+    }
+    const user = foundUser.transform()
+    if (user.role !== 'DRIVER') {
+      throw new Error('driver role is missing in idDriver')
+    }
+  }
+  this.set({status: this.get('status').toUpperCase()})
+  const status = this.get('status')
+  if (!statusList.includes(status)) {
+    return next(new Error(`${status} status is not allowed`))
+  }
+  const rating = this.get('rating')
+  if (rating !== null && (rating < 1 || rating > 5)) {
+    return next(new Error(`rating only accept number 1-5`))
+  }
+  this.set({ updatedAt: Date.now() })
   return next()
 })
 

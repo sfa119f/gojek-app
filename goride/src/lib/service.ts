@@ -54,4 +54,28 @@ export class GorideService {
       return { data: null, error: err.message }
     }
   }
+
+  static async updateOne(idUser: string, role: string, id: string, newData: any): Promise<any> {
+    try {
+      if (Object.keys(newData).length === 0 && newData.constructor === Object) {
+        throw new Error('no updated data')
+      }
+      const updatedGoride: GorideDoc = await Goride.findByIdAndUpdate(id, newData, { new: true })
+      if (!updatedGoride) {
+        throw new Error()
+      }
+      if (role === 'USER') {
+        if (idUser !== updatedGoride.idUser.toString()) {
+          return new Error('unauthorized')
+        }
+      } else if (role === 'DRIVER') {
+        if (idUser !== updatedGoride.idDriver.toString()) {
+          return new Error('unauthorized')
+        }
+      }
+      return { data: { message: 'update successfully' }, error: null }
+    } catch (err) {
+      return { data: null, error: err.message }
+    }
+  }
 }

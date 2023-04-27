@@ -9,3 +9,5 @@ gorideRoute.post('/', auth, GorideHandler.create)
 gorideRoute.get('/', auth, GorideHandler.getAll)
 
 gorideRoute.get('/:id', auth, GorideHandler.getOne)
+
+gorideRoute.put('/', auth, GorideHandler.updateOne)

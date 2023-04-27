@@ -7,9 +7,8 @@ export class UserHandler {
   static async register(req, res) {
     const temp = await UserService.register(req.body)
     if (temp.error) {
-      if (temp.error.includes("data already taken")) {
-        return res.status(400).json(temp)
-      } else if (temp.error.includes('required')) {
+      const errMessage = ['required', 'data already taken', 'is not allowed']
+      if (errMessage.map((msg) => temp.error.includes(msg)).includes(true)) {
         return res.status(400).json(temp)
       }
       console.error(temp.error)
@@ -80,11 +79,13 @@ export class UserHandler {
       return res.status(401).json({ data: null, error: 'unauthorized' })
     }
     const newData: UserModel = req.body.newData
+    delete newData['createdAt']
+    delete newData['updatedAt']
     Object.keys(newData).forEach(key => {
       if (!newData[key]) {
         delete newData[key]
       }
-    });
+    })
     const temp = await UserService.updateOne(req.body.id, req.body.oldPassword, newData)
     if (temp.error) {
       const errMessage = ['password', 'role is not allowed', 'data already taken']
