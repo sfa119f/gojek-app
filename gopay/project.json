@@ -1,0 +1,41 @@
+{
+  "name": "gopay",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "gopay/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/gopay",
+        "tsConfig": "gopay/tsconfig.lib.json",
+        "packageJson": "gopay/package.json",
+        "main": "gopay/src/index.ts",
+        "assets": ["gopay/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["gopay/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "gopay/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}

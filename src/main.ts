@@ -6,6 +6,7 @@ import bodyParser from 'body-parser';
 import { authRoute } from './routes/auth';
 import { userRoute } from './routes/user';
 import { gorideRoute } from './routes/goride';
+import { gopayRoute } from './routes/gopay';
 
 dotenv.config();
 
@@ -28,8 +29,10 @@ app.use('/api/users', userRoute)
 
 app.use('/api/goride', gorideRoute)
 
+app.use('/api/gopay', gopayRoute)
+
 app.all('*', (req, res) => {
-  res.status(404).json({ data: null, error: 'not found'})
+  res.status(404).json({ data: null, error: 'URL not found'})
 });
 
 app.listen(port, host, () => {
