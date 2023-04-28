@@ -1,12 +1,22 @@
 import { UserModel } from "./model";
 import { User, UserDoc } from "./schema";
 import bcrypt from 'bcrypt';
+import { GopayService } from '@gojek-app/gopay'
 
 export class UserService {
-  static async register(user: UserModel): Promise<any> {
+  static async register(user: UserModel, withGopay: boolean): Promise<any> {
     try {
       const newUser: UserDoc = await User.create(user)
       const data = newUser.getToken()
+      let newGopay = null
+      if (withGopay && (newUser.role === 'USER' || newUser.role === 'DRIVER')) {
+        newGopay = await GopayService.register(newUser.id) 
+      }
+      if (!newGopay) {
+        data['withGopay'] = false
+      } else {
+        data['withGopay'] = true
+      }
       return { data: data, error: null }
     } catch (err) {
       return { data: null, error: User.checkDuplicateError(err).message }

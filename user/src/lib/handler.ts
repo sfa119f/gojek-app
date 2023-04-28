@@ -5,7 +5,7 @@ import { CustomRequest } from '@gojek-app/auth'
 
 export class UserHandler {
   static async register(req, res) {
-    const temp = await UserService.register(req.body)
+    const temp = await UserService.register(req.body, req.body.withGopay)
     if (temp.error) {
       const errMessage = ['required', 'data already taken', 'is not allowed']
       if (errMessage.map((msg) => temp.error.includes(msg)).includes(true)) {

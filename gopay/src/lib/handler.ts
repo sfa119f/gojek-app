@@ -1,15 +1,14 @@
 import { pagination } from '@gojek-app/database'
 import { CustomRequest } from '@gojek-app/auth'
 import { GopayService } from './service'
-import { GopayModel, searchField } from './model'
+import { searchField } from './model'
 
 export class GopayHandler {
   static async register(req: CustomRequest, res) {
     if (req.token['id'] !== req.params.idUser || (req.token['role'] !== 'USER' && req.token['role'] !== 'DRIVER')) {
       return res.status(401).json({ data: null, error: 'unauthorized' })
     }
-    const data = { idUser: req.params.idUser } as GopayModel
-    const temp = await GopayService.register(data)
+    const temp = await GopayService.register(req.params.idUser)
     if (temp.error) {
       const errMessage = ['required', 'data already taken']
       if (errMessage.map((msg) => temp.error.includes(msg)).includes(true)) {
