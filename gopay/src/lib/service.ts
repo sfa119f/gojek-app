@@ -36,4 +36,16 @@ export class GopayService {
       return { data: null, error: err.message }
     }
   }
+
+  static async getOne(idUser: string): Promise<any> {
+    try {
+      const foundGopay: GopayDoc | void = await Gopay.findOne({ idUser: idUser });
+      if (!foundGopay) {
+        throw new Error('id not found')
+      }
+      return { data: foundGopay.transform(), error: null }
+    } catch (err) {
+      return { data: null, error: err.message }
+    }
+  }
 }
