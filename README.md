@@ -17,6 +17,8 @@ Run `nx graph` to see a diagram of the dependencies of the projects.
 ## Endpoint List
 You can see the endpoint documentation at [here](./doc/postman) (export and use using Postman)
 
+## Others
+
 ### Why using Nx-Workspace?
 - Support many feature (See [here](https://monorepo.tools/) to see how it compares to other tools)
 - Using Typescript and support framework Express
