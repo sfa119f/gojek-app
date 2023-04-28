@@ -39,9 +39,9 @@ export class GopayService {
 
   static async getOne(idUser: string): Promise<any> {
     try {
-      const foundGopay: GopayDoc | void = await Gopay.findOne({ idUser: idUser });
+      const foundGopay: GopayDoc | void = await Gopay.findOne({ idUser: idUser })
       if (!foundGopay) {
-        throw new Error('id not found')
+        throw new Error('idUser not found')
       }
       return { data: foundGopay.transform(), error: null }
     } catch (err) {
@@ -49,11 +49,45 @@ export class GopayService {
     }
   }
 
+  static async updateBalanceGopay(idUser: string, balance: number): Promise<any> {
+    try {
+      if (balance === 0) {
+        throw new Error('no balance updates')
+      }
+      const foundGopay: GopayDoc | void = await Gopay.findOne({ idUser: idUser })
+      if (!foundGopay) {
+        throw new Error('idUser not found')
+      }
+      let newBalance = foundGopay.addBalanceGopay(balance)
+      if (!newBalance) {
+        throw new Error('insufficient balance')
+      }
+      const updateGopay: GopayDoc = 
+        await Gopay.findOneAndUpdate( { idUser: idUser }, { gopay: newBalance }, { new: true })
+      return { data: updateGopay.transform(), error: null }
+    } catch (err) {
+      return { data: null, error: err.message }
+    }
+  }
+
+  static async updateToGopayPlus(idUser: string): Promise<any> {
+    const foundGopay: GopayDoc | void = await Gopay.findOne({ idUser: idUser })
+    if (!foundGopay) {
+      throw new Error('idUser not found')
+    }
+    if (foundGopay.isGopayPlus) {
+      throw new Error('already GopayPlus')
+    }
+    const updateGopay: GopayDoc = 
+        await Gopay.findOneAndUpdate( { idUser: idUser }, { isGopayPlus: true }, { new: true })
+      return { data: updateGopay.transform(), error: null }
+  } 
+
   static async deleteOne(idUser: string): Promise<any> {
     try {
       const deleteGopay: GopayDoc | void = await Gopay.findOneAndDelete({ idUser: idUser })
       if (!deleteGopay) {
-        throw new Error()
+        throw new Error('idUser not found')
       }
       return { data: { deletedId: idUser }, error: null }
     } catch (err) {

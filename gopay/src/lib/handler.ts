@@ -61,6 +61,40 @@ export class GopayHandler {
     return res.status(200).json(temp)
   }
 
+  static async updateBalanceGopay(req: CustomRequest, res) {
+    if (req.token['id'] !== req.body.idUser) {
+      return res.status(401).json({ data: null, error: 'unauthorized' })
+    }
+    const temp = await GopayService.updateBalanceGopay(req.body.idUser, Number(req.body.balance))
+    if (temp.error) {
+      const errMessage = ['no balance updates', 'not found', 'insufficient balance']
+      if (errMessage.map((msg) => temp.error.includes(msg)).includes(true)) {
+        return res.status(400).json(temp)
+      }
+      console.error(temp.error)
+      temp.error = 'something went wrong'
+      return res.status(500).json(temp)
+    }
+    return res.status(200).json(temp)
+  }
+
+  static async updateToGopayPlus(req: CustomRequest, res) {
+    if (req.token['id'] !== req.params.idUser) {
+      return res.status(401).json({ data: null, error: 'unauthorized' })
+    }
+    const temp = await GopayService.updateToGopayPlus(req.params.idUser)
+    if (temp.error) {
+      const errMessage = ['not found', 'already GopayPlus']
+      if (errMessage.map((msg) => temp.error.includes(msg)).includes(true)) {
+        return res.status(400).json(temp)
+      }
+      console.error(temp.error)
+      temp.error = 'something went wrong'
+      return res.status(500).json(temp)
+    }
+    return res.status(200).json(temp)
+  }
+
   static async deleteOne(req: CustomRequest, res) {
     if (req.token['id'] !== req.params.idUser) {
       return res.status(401).json({ data: null, error: 'unauthorized' })

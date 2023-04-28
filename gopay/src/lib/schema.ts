@@ -7,9 +7,7 @@ export interface GopayDoc extends Document {
   createdAt: Date;
   updatedAt: Date;
   transform(): Transformed;
-  addGopay(nominal): number;
-  substractGopay(nominal): number;
-  changeToGopayPlus(): boolean;
+  addBalanceGopay(balance): number;
 }
 
 interface GopayStaticFunc extends Model<GopayDoc> {
@@ -37,19 +35,8 @@ gopaySchema.methods.transform = function (): Transformed {
   return { idUser, gopay, isGopayPlus, updatedAt }
 }
 
-gopaySchema.methods.addGopay = function (nominal: number): number {
-  this.gopay += nominal
-  return this.gopay
-}
-
-gopaySchema.methods.substractGopay = function (nominal: number): number {
-  this.gopay -= nominal
-  return this.gopay
-}
-
-gopaySchema.methods.changeToGopayPlus = function () : boolean {
-  this.isGopayPlus = true
-  return this.isGopayPlus
+gopaySchema.methods.addBalanceGopay = function (balance: number): number {
+  return this.gopay += balance
 }
 
 gopaySchema.statics = {

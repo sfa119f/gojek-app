@@ -10,4 +10,8 @@ gopayRoute.get('/', auth, GopayHandler.getAll)
 
 gopayRoute.get('/:idUser', auth, GopayHandler.getOne)
 
+gopayRoute.put('/balance', auth, GopayHandler.updateBalanceGopay)
+
+gopayRoute.put('/gopayPlus/:idUser', auth, GopayHandler.updateToGopayPlus)
+
 gopayRoute.delete('/:idUser', auth, GopayHandler.deleteOne)
