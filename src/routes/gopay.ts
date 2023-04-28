@@ -5,3 +5,5 @@ import { GopayHandler } from '@gojek-app/gopay'
 export const gopayRoute = express.Router()
 
 gopayRoute.post('/:idUser', auth, GopayHandler.register)
+
+gopayRoute.get('/', auth, GopayHandler.getAll)

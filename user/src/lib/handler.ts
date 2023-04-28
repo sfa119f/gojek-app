@@ -34,15 +34,11 @@ export class UserHandler {
   static async getAll(req: CustomRequest, res) {
     if (req.token['role'] !== 'ADMIN') {
       return res.status(401).json({ data: null, error: 'unauthorized' })
-    } 
-    const field = req.params.searchField
-    if (field && !searchField.includes(field)) {
-      return res.status(400).json({ data: null, error: `cannot search for field ${field}` })
     }
     const setSearch = {}
     searchField.forEach(el => {
       setSearch[el] = req.query[el]
-    });
+    })
     const setPage = pagination(
       req.query.page,
       req.query.size,

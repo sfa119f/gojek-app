@@ -5,3 +5,9 @@ export interface GopayModel {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export const searchField = [
+  'gopayMin',
+  'gopayMax',
+  'isGopayPlus' 
+]

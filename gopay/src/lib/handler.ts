@@ -1,6 +1,7 @@
+import { pagination } from '@gojek-app/database'
 import { CustomRequest } from '@gojek-app/auth'
 import { GopayService } from './service'
-import { GopayModel } from './model'
+import { GopayModel, searchField } from './model'
 
 export class GopayHandler {
   static async register(req: CustomRequest, res) {
@@ -19,5 +20,28 @@ export class GopayHandler {
       return res.status(500).json(temp)
     }
     return res.status(201).json(temp)
+  }
+
+  static async getAll(req: CustomRequest, res) {
+    if (req.token['role'] !== 'ADMIN') {
+      return res.status(401).json({ data: null, error: 'unauthorized' })
+    }
+    const setSearch = {}
+    searchField.forEach(el => {
+      setSearch[el] = req.query[el]
+    })
+    const setPage = pagination(
+      req.query.page,
+      req.query.size,
+      req.query.orderBy,
+      req.query.desc
+    )
+    const temp = await GopayService.getAll(setSearch, setPage)
+    if (temp.error) {
+      console.error(temp.error)
+      temp.error = 'something went wrong'
+      return res.status(500).json(temp)
+    }
+    return res.status(200).json(temp)
   }
 }
