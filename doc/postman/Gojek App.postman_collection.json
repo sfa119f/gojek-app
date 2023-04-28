@@ -1,0 +1,1100 @@
+{
+	"info": {
+		"_postman_id": "a6965b1b-3478-483d-9505-04f81ced2473",
+		"name": "Gojek App",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Register Users with Gopay",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"ntest11\",\r\n  \"password\": \"passtest11\",\r\n  \"email\": \"test11@email.com\",\r\n  \"phoneCode\": 62,\r\n  \"phone\": 12345678911,\r\n  \"role\": \"user\",\r\n  \"withGopay\": true\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3333/api/auth/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register Users (Admin)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"ntest10\",\r\n  \"password\": \"passtest10\",\r\n  \"email\": \"test10@email.com\",\r\n  \"phoneCode\": 62,\r\n  \"phone\": 12345678910,\r\n  \"role\": \"admin\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3333/api/auth/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register Users (Driver)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"ntest12\",\r\n  \"password\": \"passtest12\",\r\n  \"email\": \"test12@email.com\",\r\n  \"phoneCode\": 62,\r\n  \"phone\": 12345678912,\r\n  \"role\": \"driver\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3333/api/auth/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('login', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    const { data } = responseJson;\r",
+							" \r",
+							"    pm.expect(data).to.ownProperty('token');\r",
+							"    pm.expect(data.token).to.not.equals('');\r",
+							" \r",
+							"    pm.environment.set('tokenUser', data.token);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"password\": \"passtest11\",\r\n  \"email\": \"test11@email.com\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3333/api/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Users (Admin)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('login', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    const { data } = responseJson;\r",
+							" \r",
+							"    pm.expect(data).to.ownProperty('token');\r",
+							"    pm.expect(data.token).to.not.equals('');\r",
+							" \r",
+							"    pm.environment.set('tokenAdmin', data.token);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"password\": \"passtest10\",\r\n  \"email\": \"test10@email.com\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3333/api/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Users (Driver)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('login', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    const { data } = responseJson;\r",
+							" \r",
+							"    pm.expect(data).to.ownProperty('token');\r",
+							"    pm.expect(data.token).to.not.equals('');\r",
+							" \r",
+							"    pm.environment.set('tokenDriver', data.token);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"password\": \"passtest12\",\r\n  \"email\": \"test12@email.com\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3333/api/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('getAllUser', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    const { data } = responseJson;\r",
+							" \r",
+							"    pm.environment.set('idDriver', data[0].id);\r",
+							"    pm.environment.set('idAdmin', data[1].id);\r",
+							"    pm.environment.set('idUser', data[2].id);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{tokenAdmin}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3333/api/users?desc=true",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"users"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "4@email",
+							"disabled": true
+						},
+						{
+							"key": "phoneCode",
+							"value": "62",
+							"disabled": true
+						},
+						{
+							"key": "orderBy",
+							"value": "createdAt",
+							"disabled": true
+						},
+						{
+							"key": "desc",
+							"value": "true"
+						},
+						{
+							"key": "size",
+							"value": "3",
+							"disabled": true
+						},
+						{
+							"key": "page",
+							"value": "1",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get By Id Users",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{tokenDriver}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3333/api/users/{{idDriver}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"users",
+						"{{idDriver}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Users",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{tokenDriver}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": \"{{idDriver}}\",\r\n  \"oldPassword\": \"\",\r\n  \"newData\": {\r\n    \"phoneCode\": 1\r\n  }\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3333/api/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Users",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{tokenDriver}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3333/api/users/{{idDriver}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"users",
+						"{{idDriver}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register Users (Driver) 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('login', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    const { data } = responseJson;\r",
+							" \r",
+							"    pm.expect(data).to.ownProperty('token');\r",
+							"    pm.expect(data.token).to.not.equals('');\r",
+							" \r",
+							"    pm.environment.set('tokenDriver', data.token);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"ntest12\",\r\n  \"password\": \"passtest12\",\r\n  \"email\": \"test12@email.com\",\r\n  \"phoneCode\": 62,\r\n  \"phone\": 12345678912,\r\n  \"role\": \"driver\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3333/api/auth/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('getAllUser', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    const { data } = responseJson;\r",
+							" \r",
+							"    pm.environment.set('idDriver', data[0].id);\r",
+							"    pm.environment.set('idAdmin', data[1].id);\r",
+							"    pm.environment.set('idUser', data[2].id);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{tokenAdmin}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3333/api/users?desc=true",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"users"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "4@email",
+							"disabled": true
+						},
+						{
+							"key": "phoneCode",
+							"value": "62",
+							"disabled": true
+						},
+						{
+							"key": "orderBy",
+							"value": "createdAt",
+							"disabled": true
+						},
+						{
+							"key": "desc",
+							"value": "true"
+						},
+						{
+							"key": "size",
+							"value": "3",
+							"disabled": true
+						},
+						{
+							"key": "page",
+							"value": "1",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register Gopay",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{tokenDriver}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3333/api/gopay/{{idDriver}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"gopay",
+						"{{idDriver}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Gopay",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{tokenAdmin}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3333/api/gopay",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"gopay"
+					],
+					"query": [
+						{
+							"key": "orderBy",
+							"value": "createdAt",
+							"disabled": true
+						},
+						{
+							"key": "desc",
+							"value": "true",
+							"disabled": true
+						},
+						{
+							"key": "size",
+							"value": "3",
+							"disabled": true
+						},
+						{
+							"key": "page",
+							"value": "1",
+							"disabled": true
+						},
+						{
+							"key": "gopayMax",
+							"value": "5",
+							"disabled": true
+						},
+						{
+							"key": "gopayMin",
+							"value": "0",
+							"disabled": true
+						},
+						{
+							"key": "isGopayPlus",
+							"value": "false",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get One Gopay",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{tokenUser}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3333/api/gopay/{{idUser}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"gopay",
+						"{{idUser}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Balance Gopay",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{tokenUser}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"idUser\": \"{{idUser}}\",\r\n  \"balance\": 100000\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3333/api/gopay/balance",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"gopay",
+						"balance"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update To GopayPlus",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{tokenUser}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3333/api/gopay/gopayPlus/{{idUser}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"gopay",
+						"gopayPlus",
+						"{{idUser}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Gopay",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{tokenDriver}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3333/api/gopay/{{idDriver}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"gopay",
+						"{{idDriver}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register Gopay 2",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{tokenDriver}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3333/api/gopay/{{idDriver}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"gopay",
+						"{{idDriver}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Goride 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('createGoride', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    const { data } = responseJson;\r",
+							" \r",
+							"    pm.expect(data).to.ownProperty('id');\r",
+							"    pm.expect(data.token).to.not.equals('');\r",
+							" \r",
+							"    pm.environment.set('idGoride1', data.id);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{tokenUser}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"from\": \"monas\",\r\n  \"to\": \"stasiun gambir\",\r\n  \"tripFee\": 11000\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3333/api/goride",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"goride"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Goride 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('createGoride', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    const { data } = responseJson;\r",
+							" \r",
+							"    pm.expect(data).to.ownProperty('id');\r",
+							"    pm.expect(data.token).to.not.equals('');\r",
+							" \r",
+							"    pm.environment.set('idGoride2', data.id);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{tokenUser}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"from\": \"braga\",\r\n  \"to\": \"stasiun bandung\",\r\n  \"tripFee\": 12000\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3333/api/goride",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"goride"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Goride 3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('createGoride', () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    const { data } = responseJson;\r",
+							" \r",
+							"    pm.expect(data).to.ownProperty('id');\r",
+							"    pm.expect(data.token).to.not.equals('');\r",
+							" \r",
+							"    pm.environment.set('idGoride3', data.id);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{tokenUser}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"from\": \"kraton jogja\",\r\n  \"to\": \"stasiun yogyakarta\",\r\n  \"tripFee\": 13000\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3333/api/goride",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"goride"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Goride",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{tokenUser}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3333/api/goride",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"goride"
+					],
+					"query": [
+						{
+							"key": "idUser",
+							"value": "aa",
+							"disabled": true
+						},
+						{
+							"key": "idDriver",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "tripFeeMin",
+							"value": "1",
+							"disabled": true
+						},
+						{
+							"key": "tripFeeMax",
+							"value": null,
+							"disabled": true
+						},
+						{
+							"key": "updatedAt",
+							"value": "202304",
+							"disabled": true
+						},
+						{
+							"key": "orderBy",
+							"value": "createdAt",
+							"disabled": true
+						},
+						{
+							"key": "desc",
+							"value": "true",
+							"disabled": true
+						},
+						{
+							"key": "size",
+							"value": "3",
+							"disabled": true
+						},
+						{
+							"key": "page",
+							"value": "1",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get One Goride",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{tokenUser}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3333/api/goride/{{idGoride1}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"goride",
+						"{{idGoride1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Goride",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{tokenDriver}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": \"{{idGoride2}}\",\r\n  \"idDriver\": \"{{idDriver}}\",\r\n  \"rating\": null,\r\n  \"status\": \"WAITING FOR DRIVER\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3333/api/goride",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"goride"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Goride",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{tokenUser}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3333/api/goride/{{idGoride3}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3333",
+					"path": [
+						"api",
+						"goride",
+						"{{idGoride3}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
