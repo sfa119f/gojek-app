@@ -16,15 +16,23 @@ export class GorideService {
       const selection = {}
       if (setSearch['idUser']) selection['idUser'] = setSearch['idUser']
       if (setSearch['idDriver']) selection['idDriver'] = setSearch['idDriver']
-      if (setSearch['paymentMin']) selection['payment']['$gte'] = setSearch['paymentMin']
-      if (setSearch['paymentMax']) selection['payment']['$lte'] = setSearch['paymentMax']
+      if (setSearch['tripFeeMin']) {
+        const gte = { $gte: Number(setSearch['tripFeeMin'])}
+        selection['tripFee'] = { ...selection['tripFee'], ...gte }
+      }
+      if (setSearch['tripFeeMax']) {
+        const lte = { $lte: Number(setSearch['tripFeeMax'])}
+        selection['tripFee'] = { ...selection['tripFee'], ...lte }
+      }
       if (setSearch['updatedAt']) {
         const month = Number(setSearch['updatedAt'].substring(4))
         const year = Number(setSearch['updatedAt'].substring(0, 4))
-        const nextMonth = month + 1 > 12 ? 1 : month + 1
-        const nextYear = nextMonth === month + 1 ? year : year + 1
-        selection['updatedAt']['gte'] = new Date(year, month, 1)
-        selection['updatedAt']['lt'] = new Date(nextYear, nextMonth, 1)
+        const monthBefore = month - 1 < 1 ? 12 : month - 1
+        const yearBefore = monthBefore === month - 1 ? year : year - 1
+        const gt = { $gt: new Date(yearBefore, monthBefore)}
+        selection['updatedAt'] = { ...selection['updatedAt'], ...gt }
+        const lte = { $lte: new Date(year, month) }
+        selection['updatedAt'] = { ...selection['updatedAt'], ...lte }
       }
       const orderBy = `${setPage.desc ? '-' : ''}${setPage.orderBy}`
       const gorides: GorideDoc[] | void = 

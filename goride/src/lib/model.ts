@@ -33,7 +33,7 @@ export const statusList = [
 export const searchField = [
   'idUser',
   'idDriver',
-  'paymentMin',
-  'paymentMax',
+  'tripFeeMin',
+  'tripFeeMax',
   'updatedAt' // using YYYYMM format
 ]
