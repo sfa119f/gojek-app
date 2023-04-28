@@ -9,3 +9,5 @@ gopayRoute.post('/:idUser', auth, GopayHandler.register)
 gopayRoute.get('/', auth, GopayHandler.getAll)
 
 gopayRoute.get('/:idUser', auth, GopayHandler.getOne)
+
+gopayRoute.delete('/:idUser', auth, GopayHandler.deleteOne)

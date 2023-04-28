@@ -48,4 +48,16 @@ export class GopayService {
       return { data: null, error: err.message }
     }
   }
+
+  static async deleteOne(idUser: string): Promise<any> {
+    try {
+      const deleteGopay: GopayDoc | void = await Gopay.findOneAndDelete({ idUser: idUser })
+      if (!deleteGopay) {
+        throw new Error()
+      }
+      return { data: { deletedId: idUser }, error: null }
+    } catch (err) {
+      return { data: null, error: err.message }
+    }
+  }
 }

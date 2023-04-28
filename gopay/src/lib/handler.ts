@@ -60,4 +60,17 @@ export class GopayHandler {
     }
     return res.status(200).json(temp)
   }
+
+  static async deleteOne(req: CustomRequest, res) {
+    if (req.token['id'] !== req.params.idUser) {
+      return res.status(401).json({ data: null, error: 'unauthorized' })
+    }
+    const temp = await GopayService.deleteOne(req.params.idUser)
+    if (temp.error) {
+      console.error(temp.error)
+      temp.error = 'something went wrong'
+      return res.status(500).json(temp)
+    }
+    return res.status(200).json(temp)
+  }
 }
